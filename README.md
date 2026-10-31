@@ -61,6 +61,19 @@ college-management-system/
 ├── docker-compose.yml
 └── README.md
 ```
+## Application Screenshots
+
+### Public Homepage
+![College Homepage](screenshots/homepage.png)
+
+### Admin Dashboard
+![Admin Dashboard](screenshots/admin-dashboard.png)
+
+### Teacher Dashboard
+![Teacher Dashboard](screenshots/teacher-dashboard.png)
+
+### Student Dashboard
+![Student Dashboard](screenshots/student-dashboard.png)
 
 ## Run with Docker
 
