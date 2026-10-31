@@ -1,0 +1,388 @@
+
+.section {
+  width: 100%;
+  min-width: 0;
+  padding: 28px;
+  background: #f7f5ee;
+  border: 1px solid #e5e6da;
+  border-radius: 20px;
+  color: #263b2f;
+  box-shadow: 0 8px 24px rgba(23, 58, 41, 0.05);
+}
+
+/* Header */
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.sectionHeader h2 {
+  margin: 0;
+  color: #214d38;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.6rem, 3vw, 2rem);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.4px;
+}
+
+.sectionHeader p {
+  margin: 8px 0 0;
+  color: #68766b;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.count {
+  flex-shrink: 0;
+  padding: 9px 14px;
+  border: 1px solid #d9dfd1;
+  border-radius: 999px;
+  background: #efeee5;
+  color: #214d38;
+  font-size: 0.82rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* Search */
+
+.search {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.search input {
+  width: 100%;
+  min-width: 0;
+  min-height: 48px;
+  padding: 12px 16px;
+  border: 1px solid #d9dfd1;
+  border-radius: 12px;
+  outline: none;
+  background: #fffef9;
+  color: #263b2f;
+  font: inherit;
+  font-size: 0.92rem;
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    background 180ms ease;
+}
+
+.search input::placeholder {
+  color: #929b90;
+}
+
+.search input:focus {
+  border-color: #214d38;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(33, 77, 56, 0.1);
+}
+
+.search input::-webkit-search-cancel-button {
+  cursor: pointer;
+}
+
+.search > span {
+  flex-shrink: 0;
+  color: #68766b;
+  font-size: 0.82rem;
+}
+
+/* Notice list */
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 22px;
+  overflow-wrap: anywhere;
+  border: 1px solid #e1e4d8;
+  border-radius: 16px;
+  background: #fffef9;
+  box-shadow: 0 4px 14px rgba(23, 58, 41, 0.035);
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  border-color: #c4d0c1;
+  box-shadow: 0 10px 24px rgba(23, 58, 41, 0.08);
+}
+
+.cardTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.cardTop > div {
+  min-width: 0;
+}
+
+.cardTop h3 {
+  margin: 0;
+  color: #214d38;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.date {
+  margin: 8px 0 0;
+  color: #858c80;
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.audience {
+  flex-shrink: 0;
+  max-width: 120px;
+  padding: 6px 10px;
+  border: 1px solid #d8e1d4;
+  border-radius: 999px;
+  background: #edf2e9;
+  color: #214d38;
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.content {
+  margin: 0;
+  color: #4e5d51;
+  font-size: 0.93rem;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 18px;
+  margin-top: auto;
+  padding-top: 17px;
+  border-top: 1px solid #ecece3;
+  color: #778174;
+  font-size: 0.78rem;
+  line-height: 1.6;
+}
+
+.meta strong {
+  color: #214d38;
+  font-weight: 700;
+}
+
+/* Loading, error and empty states */
+
+.message,
+.error,
+.empty {
+  padding: 30px 22px;
+  border: 1px solid #e1e4d8;
+  border-radius: 14px;
+  background: #fffef9;
+  text-align: center;
+}
+
+.message {
+  color: #68766b;
+  font-size: 0.95rem;
+}
+
+.error {
+  border-color: #ead3ce;
+  background: #fff9f7;
+  color: #9d3830;
+}
+
+.error p {
+  margin: 0 0 8px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.error p:first-child {
+  font-weight: 700;
+}
+
+.error p:last-of-type {
+  font-size: 0.88rem;
+}
+
+.error button,
+.empty button {
+  min-height: 42px;
+  margin-top: 12px;
+  padding: 10px 18px;
+  border: 1px solid #214d38;
+  border-radius: 10px;
+  background: #214d38;
+  color: #fffef9;
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background 180ms ease,
+    transform 180ms ease;
+}
+
+.error button:hover,
+.empty button:hover {
+  transform: translateY(-1px);
+  background: #173a29;
+}
+
+.error button:focus-visible,
+.empty button:focus-visible {
+  outline: 3px solid #d8c99f;
+  outline-offset: 3px;
+}
+
+.empty h3 {
+  margin: 0;
+  color: #214d38;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.3rem;
+}
+
+.empty p {
+  margin: 10px 0 0;
+  color: #778174;
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+/* Tablet */
+
+@media (max-width: 900px) {
+  .section {
+    padding: 24px;
+  }
+
+  .list {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Mobile */
+
+@media (max-width: 600px) {
+  .section {
+    padding: 18px;
+    border-radius: 16px;
+  }
+
+  .sectionHeader {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .sectionHeader h2 {
+    font-size: 1.65rem;
+  }
+
+  .sectionHeader p {
+    font-size: 0.88rem;
+  }
+
+  .count {
+    padding: 7px 12px;
+  }
+
+  .search {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 18px;
+  }
+
+  .search input {
+    min-height: 46px;
+    font-size: 0.86rem;
+  }
+
+  .search > span {
+    align-self: flex-start;
+  }
+
+  .list {
+    gap: 14px;
+  }
+
+  .card {
+    padding: 18px;
+    border-radius: 14px;
+  }
+
+  .cardTop {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .cardTop h3 {
+    font-size: 1.08rem;
+  }
+
+  .audience {
+    max-width: 100%;
+  }
+
+  .content {
+    font-size: 0.88rem;
+    line-height: 1.75;
+  }
+
+  .meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .message,
+  .error,
+  .empty {
+    padding: 24px 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .search input,
+  .error button,
+  .empty button {
+    transition: none;
+  }
+
+  .card:hover,
+  .error button:hover,
+  .empty button:hover {
+    transform: none;
+  }
+}

@@ -1,0 +1,37 @@
+/* ProtectedRoute — College Portal theme */
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: #f7f5ee;
+  color: #214d38;
+}
+
+.page p {
+  margin: 0;
+  padding: 20px 28px;
+  border: 1px solid #e5e6da;
+  border-radius: 16px;
+  background: #fffef9;
+  box-shadow: 0 10px 30px rgba(33, 77, 56, 0.07);
+  color: #526458;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 17px;
+  line-height: 1.6;
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  .page {
+    padding: 18px;
+  }
+
+  .page p {
+    width: 100%;
+    padding: 18px;
+    font-size: 15px;
+  }
+}

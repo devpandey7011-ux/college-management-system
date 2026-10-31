@@ -1,0 +1,269 @@
+
+.container {
+  width: 100%;
+  min-width: 0;
+  padding: 28px;
+  border: 1px solid #e5e6da;
+  border-radius: 20px;
+  background: #f7f5ee;
+  color: #263b2f;
+  box-shadow: 0 8px 24px rgba(23, 58, 41, 0.05);
+}
+
+/* Header */
+
+.header {
+  margin-bottom: 26px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e1e4d8;
+}
+
+.header h2 {
+  margin: 0;
+  color: #214d38;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.6rem, 3vw, 2rem);
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.4px;
+}
+
+.header p {
+  margin: 9px 0 0;
+  color: #68766b;
+  font-size: 0.94rem;
+  line-height: 1.7;
+}
+
+/* Form layout */
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 21px;
+  width: 100%;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  min-width: 0;
+}
+
+.field label {
+  color: #294b37;
+  font-size: 0.9rem;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+/* Inputs, dropdowns and textarea */
+
+.field input,
+.field select,
+.field textarea {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  min-height: 48px;
+  padding: 12px 14px;
+  border: 1px solid #d9dfd1;
+  border-radius: 11px;
+  outline: none;
+  background: #fffef9;
+  color: #263b2f;
+  font: inherit;
+  font-size: 0.92rem;
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    background 180ms ease;
+}
+
+.field select {
+  cursor: pointer;
+}
+
+.field input::placeholder,
+.field textarea::placeholder {
+  color: #929b90;
+}
+
+.field textarea {
+  min-height: 110px;
+  resize: vertical;
+  line-height: 1.7;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: #214d38;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(33, 77, 56, 0.1);
+}
+
+.field input:disabled,
+.field select:disabled,
+.field textarea:disabled {
+  cursor: not-allowed;
+  background: #efeee5;
+  color: #858c80;
+  opacity: 0.8;
+}
+
+/* Success and error messages */
+
+.success,
+.error {
+  margin: 0;
+  padding: 13px 16px;
+  border-radius: 11px;
+  font-size: 0.9rem;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+
+.success {
+  border: 1px solid #cbdcc9;
+  background: #edf5e9;
+  color: #245d36;
+}
+
+.error {
+  border: 1px solid #ead3ce;
+  background: #fff3f0;
+  color: #9d3830;
+}
+
+/* Submit button */
+
+.submitButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-start;
+  min-width: 170px;
+  min-height: 48px;
+  padding: 13px 24px;
+  border: 1px solid #214d38;
+  border-radius: 11px;
+  background: #214d38;
+  color: #fffef9;
+  font: inherit;
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(23, 58, 41, 0.1);
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    transform 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.submitButton:hover:not(:disabled) {
+  transform: translateY(-2px);
+  border-color: #173a29;
+  background: #173a29;
+  box-shadow: 0 7px 16px rgba(23, 58, 41, 0.16);
+}
+
+.submitButton:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.submitButton:focus-visible {
+  outline: 3px solid #d8c99f;
+  outline-offset: 3px;
+}
+
+.submitButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+  box-shadow: none;
+}
+
+/* Tablet */
+
+@media (max-width: 800px) {
+  .container {
+    padding: 24px;
+  }
+
+  .row {
+    gap: 16px;
+  }
+}
+
+/* Mobile */
+
+@media (max-width: 600px) {
+  .container {
+    padding: 18px;
+    border-radius: 16px;
+  }
+
+  .header {
+    margin-bottom: 22px;
+    padding-bottom: 17px;
+  }
+
+  .header h2 {
+    font-size: 1.6rem;
+  }
+
+  .header p {
+    font-size: 0.88rem;
+  }
+
+  .form {
+    gap: 18px;
+  }
+
+  .row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+  }
+
+  .field {
+    gap: 8px;
+  }
+
+  .field label {
+    font-size: 0.86rem;
+  }
+
+  .field input,
+  .field select,
+  .field textarea {
+    font-size: 0.9rem;
+  }
+
+  .submitButton {
+    width: 100%;
+    align-self: stretch;
+  }
+}
+
+/* Accessibility */
+
+@media (prefers-reduced-motion: reduce) {
+  .field input,
+  .field select,
+  .field textarea,
+  .submitButton {
+    transition: none;
+  }
+
+  .submitButton:hover:not(:disabled) {
+    transform: none;
+  }
+}

@@ -1,0 +1,361 @@
+.page {
+  min-height: 100vh;
+  padding: 40px 24px 64px;
+  background: #f7f5ee;
+  color: #24352a;
+}
+
+.container {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.backButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  padding: 10px 16px;
+  border: 1px solid #d5ddcf;
+  border-radius: 10px;
+  background: #efeee5;
+  color: #214d38;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.backButton:hover {
+  border-color: #214d38;
+  background: #e5e6da;
+  transform: translateY(-1px);
+}
+
+.header {
+  margin-bottom: 28px;
+}
+
+.eyebrow {
+  display: block;
+  margin-bottom: 12px;
+  color: #8a7547;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.header h1 {
+  margin: 0;
+  color: #214d38;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(30px, 4vw, 40px);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.6px;
+}
+
+.header p {
+  margin: 12px 0 0;
+  color: #687469;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.section {
+  overflow: hidden;
+  border: 1px solid #e0e3d8;
+  border-radius: 16px;
+  background: #fffef9;
+  box-shadow: 0 8px 24px rgb(33 77 56 / 5%);
+}
+
+.sectionHeader {
+  padding: 23px 28px;
+  border-bottom: 1px solid #e7e8df;
+  background: linear-gradient(135deg, #efeee5 0%, #f8f6ef 100%);
+}
+
+.sectionHeader h2 {
+  margin: 0;
+  color: #214d38;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.sectionHeader p {
+  margin: 7px 0 0;
+  color: #758073;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  padding: 28px;
+}
+
+.field {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.field label {
+  color: #294635;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.field label span {
+  color: #899185;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.field input {
+  width: 100%;
+  min-height: 47px;
+  padding: 12px 14px;
+  border: 1px solid #d8ded3;
+  border-radius: 9px;
+  outline: none;
+  background: #fffefb;
+  color: #26392c;
+  font: inherit;
+  font-size: 14px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.field input::placeholder {
+  color: #a0a79c;
+}
+
+.field input:hover {
+  border-color: #aab9a8;
+}
+
+.field input:focus {
+  border-color: #477858;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgb(33 77 56 / 10%);
+}
+
+.field input:disabled {
+  background: #f0f0e9;
+  color: #828a80;
+  cursor: not-allowed;
+}
+
+.error {
+  padding: 14px 17px;
+  border: 1px solid #e8c3bd;
+  border-radius: 10px;
+  background: #fff1ee;
+  color: #a2382c;
+  font-size: 14px;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 22px 24px;
+  border: 1px solid #e0e3d8;
+  border-radius: 14px;
+  background: #fffef9;
+  box-shadow: 0 4px 14px rgb(33 77 56 / 4%);
+}
+
+.cancelButton,
+.submitButton {
+  display: inline-flex;
+  min-height: 45px;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 22px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.cancelButton {
+  border-color: #d7ddd2;
+  background: #f5f4ed;
+  color: #405547;
+}
+
+.cancelButton:hover:not(:disabled) {
+  border-color: #aab8a8;
+  background: #e9eae0;
+}
+
+.submitButton {
+  min-width: 150px;
+  background: #214d38;
+  color: #fffef8;
+  box-shadow: 0 4px 10px rgb(33 77 56 / 12%);
+}
+
+.submitButton:hover:not(:disabled) {
+  background: #173a29;
+  box-shadow: 0 6px 14px rgb(33 77 56 / 18%);
+  transform: translateY(-1px);
+}
+
+.cancelButton:disabled,
+.submitButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  box-shadow: none;
+  transform: none;
+}
+
+.message {
+  margin: 24px 0;
+  padding: 40px 24px;
+  border: 1px solid #e0e3d8;
+  border-radius: 16px;
+  background: #fffef9;
+  color: #526456;
+  font-size: 15px;
+  line-height: 1.7;
+  text-align: center;
+  box-shadow: 0 8px 24px rgb(33 77 56 / 5%);
+}
+
+.errorCard {
+  margin-top: 20px;
+  padding: 36px;
+  border: 1px solid #e0e3d8;
+  border-radius: 16px;
+  background: #fffef9;
+  box-shadow: 0 8px 24px rgb(33 77 56 / 5%);
+}
+
+.errorCard h1 {
+  margin: 0;
+  color: #214d38;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 30px;
+  line-height: 1.3;
+}
+
+.errorCard p {
+  margin: 12px 0 24px;
+  color: #687469;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.errorCard .backButton {
+  margin-bottom: 0;
+}
+
+@media (max-width: 700px) {
+  .page {
+    padding: 26px 16px 40px;
+  }
+
+  .header {
+    margin-bottom: 22px;
+  }
+
+  .header h1 {
+    font-size: 32px;
+  }
+
+  .header p {
+    font-size: 14px;
+  }
+
+  .form {
+    gap: 18px;
+  }
+
+  .section {
+    border-radius: 13px;
+  }
+
+  .sectionHeader {
+    padding: 20px;
+  }
+
+  .sectionHeader h2 {
+    font-size: 20px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 22px 20px;
+  }
+
+  .actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+    gap: 10px;
+    padding: 18px;
+  }
+
+  .cancelButton,
+  .submitButton {
+    width: 100%;
+  }
+
+  .errorCard {
+    padding: 26px 22px;
+  }
+
+  .errorCard h1 {
+    font-size: 26px;
+  }
+}
+
+@media (max-width: 400px) {
+  .page {
+    padding: 20px 12px 32px;
+  }
+
+  .header h1 {
+    font-size: 28px;
+  }
+
+  .sectionHeader,
+  .grid {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+
+  .errorCard {
+    padding: 24px 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .backButton,
+  .field input,
+  .cancelButton,
+  .submitButton {
+    transition: none;
+  }
+}

@@ -1,0 +1,491 @@
+/* app/admin/subject-assignments/page.module.css */
+
+.page {
+  min-height: 100vh;
+  padding: 40px 24px 64px;
+  background: #f7f5ee;
+  color: #173a29;
+}
+
+.container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 30px;
+}
+
+.backButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  padding: 9px 14px;
+  border: 1px solid #d7ddcf;
+  border-radius: 9px;
+  background: #fffef9;
+  color: #214d38;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.backButton:hover {
+  transform: translateY(-1px);
+  border-color: #214d38;
+  background: #efeee5;
+}
+
+.header h1 {
+  margin: 0;
+  color: #214d38;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(30px, 4vw, 42px);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1.2;
+}
+
+.header p {
+  max-width: 650px;
+  margin: 12px 0 0;
+  color: #69766a;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.assignmentCard {
+  margin-bottom: 32px;
+  padding: 28px;
+  border: 1px solid #e3e4d9;
+  border-radius: 18px;
+  background: #fffef9;
+  box-shadow: 0 8px 24px rgb(23 58 41 / 4%);
+}
+
+.sectionHeader {
+  margin-bottom: 24px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid #e8e8de;
+}
+
+.sectionHeader h2,
+.listHeader h2 {
+  margin: 0;
+  color: #214d38;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 23px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.sectionHeader p,
+.listHeader p {
+  margin: 7px 0 0;
+  color: #788075;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.field {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.field label {
+  color: #294735;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.field select {
+  width: 100%;
+  min-height: 46px;
+  padding: 11px 13px;
+  border: 1px solid #d9ded3;
+  border-radius: 10px;
+  outline: none;
+  background: #fff;
+  color: #243c2e;
+  font: inherit;
+  font-size: 14px;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.field select:hover:not(:disabled) {
+  border-color: #aab9a7;
+}
+
+.field select:focus {
+  border-color: #37694c;
+  box-shadow: 0 0 0 3px rgb(33 77 56 / 10%);
+}
+
+.field select:disabled {
+  cursor: not-allowed;
+  background: #f0f0e9;
+  color: #8a9085;
+}
+
+.hint {
+  color: #788075;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.assignAction {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+}
+
+.assignButton {
+  display: inline-flex;
+  min-height: 46px;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 22px;
+  border: 1px solid #214d38;
+  border-radius: 10px;
+  background: #214d38;
+  color: #fffef9;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgb(33 77 56 / 12%);
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.assignButton:hover:not(:disabled) {
+  transform: translateY(-1px);
+  background: #173a29;
+  box-shadow: 0 6px 14px rgb(33 77 56 / 18%);
+}
+
+.assignButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+  box-shadow: none;
+}
+
+.error {
+  margin-bottom: 20px;
+  padding: 14px 16px;
+  border: 1px solid #e8c6c0;
+  border-radius: 10px;
+  background: #fff1ee;
+  color: #9b3028;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.listSection {
+  min-width: 0;
+}
+
+.listHeader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 18px;
+}
+
+.searchInput {
+  width: 100%;
+  max-width: 340px;
+  min-height: 44px;
+  padding: 10px 14px;
+  border: 1px solid #d9ded3;
+  border-radius: 10px;
+  outline: none;
+  background: #fffef9;
+  color: #243c2e;
+  font: inherit;
+  font-size: 13px;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.searchInput::placeholder {
+  color: #a0a59b;
+}
+
+.searchInput:hover {
+  border-color: #aab9a7;
+}
+
+.searchInput:focus {
+  border-color: #37694c;
+  box-shadow: 0 0 0 3px rgb(33 77 56 / 10%);
+}
+
+.tableCard {
+  overflow: hidden;
+  border: 1px solid #e3e4d9;
+  border-radius: 16px;
+  background: #fffef9;
+  box-shadow: 0 8px 24px rgb(23 58 41 / 4%);
+}
+
+.tableWrapper {
+  width: 100%;
+  overflow-x: auto;
+  scrollbar-color: #b7c2b3 #f1f0e8;
+  scrollbar-width: thin;
+}
+
+.table {
+  width: 100%;
+  min-width: 950px;
+  border-collapse: separate;
+  border-spacing: 0;
+  text-align: left;
+}
+
+.table thead {
+  background: #214d38;
+  color: #fffef9;
+}
+
+.table th {
+  padding: 16px 18px;
+  border-bottom: 1px solid #315d45;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.table td {
+  padding: 17px 18px;
+  border-bottom: 1px solid #ecece3;
+  color: #4d5d50;
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.table tbody tr {
+  transition: background 0.15s ease;
+}
+
+.table tbody tr:hover {
+  background: #f7f7f0;
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.primaryText {
+  margin-bottom: 5px;
+  color: #214d38;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.secondaryText {
+  color: #788075;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.badge {
+  display: inline-block;
+  padding: 5px 8px;
+  border: 1px solid #d8e2d4;
+  border-radius: 6px;
+  background: #edf3e9;
+  color: #214d38;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.deleteButton {
+  display: inline-flex;
+  min-height: 34px;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 12px;
+  border: 1px solid #ecd2ce;
+  border-radius: 8px;
+  background: #fff3f1;
+  color: #a33a31;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.deleteButton:hover:not(:disabled) {
+  border-color: #d9aaa4;
+  background: #fde6e2;
+}
+
+.deleteButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.state,
+.empty {
+  padding: 48px 24px;
+  border: 1px solid #e3e4d9;
+  border-radius: 14px;
+  background: #fffef9;
+  text-align: center;
+}
+
+.state {
+  color: #69766a;
+  font-size: 14px;
+}
+
+.empty h3 {
+  margin: 0;
+  color: #214d38;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 23px;
+  font-weight: 600;
+}
+
+.empty p {
+  margin: 10px 0 0;
+  color: #788075;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+@media (max-width: 800px) {
+  .page {
+    padding: 28px 18px 48px;
+  }
+
+  .assignmentCard {
+    padding: 22px;
+  }
+
+  .listHeader {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .searchInput {
+    max-width: none;
+  }
+
+  .formGrid {
+    gap: 20px;
+  }
+}
+
+@media (max-width: 560px) {
+  .page {
+    padding: 22px 12px 36px;
+  }
+
+  .header {
+    margin-bottom: 24px;
+  }
+
+  .backButton {
+    margin-bottom: 20px;
+  }
+
+  .header h1 {
+    font-size: 31px;
+  }
+
+  .header p {
+    font-size: 14px;
+  }
+
+  .assignmentCard {
+    padding: 18px 15px;
+    border-radius: 14px;
+  }
+
+  .sectionHeader {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+  }
+
+  .sectionHeader h2,
+  .listHeader h2 {
+    font-size: 21px;
+  }
+
+  .formGrid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 19px;
+  }
+
+  .assignAction {
+    align-items: stretch;
+  }
+
+  .assignButton {
+    width: 100%;
+  }
+
+  .tableCard {
+    border-radius: 12px;
+  }
+
+  .table {
+    min-width: 900px;
+  }
+
+  .table th,
+  .table td {
+    padding: 14px 13px;
+  }
+
+  .state,
+  .empty {
+    padding: 38px 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .backButton,
+  .field select,
+  .assignButton,
+  .searchInput,
+  .table tbody tr,
+  .deleteButton {
+    transition: none;
+  }
+}

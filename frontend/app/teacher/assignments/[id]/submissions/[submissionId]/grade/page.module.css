@@ -1,0 +1,534 @@
+/* frontend/app/teacher/assignments/[id]/submissions/[submissionId]/page.module.css */
+
+.page {
+  min-height: 100vh;
+  padding: 36px 20px 56px;
+  background: #F7F5EE;
+  color: #26382D;
+}
+
+.container {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Loading and error messages */
+
+.message {
+  margin: 48px auto;
+  color: #68766A;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.errorCard {
+  max-width: 560px;
+  margin: 64px auto;
+  padding: 36px;
+  border: 1px solid #E4D5D0;
+  border-radius: 18px;
+  background: #FFFCF8;
+  box-shadow: 0 8px 24px rgb(35 55 39 / 5%);
+  text-align: center;
+}
+
+.errorCard h1 {
+  margin: 0 0 12px;
+  color: #214D38;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.8rem;
+}
+
+.errorCard p {
+  margin: 0 0 24px;
+  color: #68766A;
+  line-height: 1.7;
+}
+
+/* Back navigation */
+
+.backButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 26px;
+  padding: 10px 15px;
+  border: 1px solid #D7DED3;
+  border-radius: 9px;
+  background: #FFFFFF;
+  color: #214D38;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.backButton:hover {
+  border-color: #AAB9A9;
+  background: #EFEEE5;
+  transform: translateX(-2px);
+}
+
+.backButton:focus-visible,
+.submitButton:focus-visible {
+  outline: 3px solid #A8B99F;
+  outline-offset: 3px;
+}
+
+/* Page heading */
+
+.header {
+  margin-bottom: 28px;
+}
+
+.header h1 {
+  margin: 0;
+  color: #214D38;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2rem, 4vw, 2.7rem);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.header p {
+  margin: 12px 0 0;
+  color: #68766A;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+/* Assignment overview */
+
+.assignmentCard {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 24px;
+  margin-bottom: 22px;
+  padding: 24px 26px;
+  border: 1px solid #DDE3D7;
+  border-radius: 15px;
+  background: linear-gradient(135deg, #EFEEE5, #E8EADF);
+  box-shadow: 0 5px 18px rgb(35 55 39 / 4%);
+}
+
+.assignmentCard > div {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  min-width: 0;
+}
+
+.assignmentCard span {
+  color: #718071;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.assignmentCard strong {
+  overflow-wrap: anywhere;
+  color: #214D38;
+  font-size: 1.05rem;
+  line-height: 1.5;
+}
+
+.assignmentCard > div:last-child {
+  align-items: flex-end;
+  text-align: right;
+}
+
+/* Student submission card */
+
+.studentCard {
+  margin-bottom: 26px;
+  padding: 26px;
+  border: 1px solid #E1E3D9;
+  border-radius: 16px;
+  background: #FFFEFA;
+  box-shadow: 0 6px 20px rgb(35 55 39 / 4%);
+}
+
+.studentHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.label {
+  display: block;
+  margin-bottom: 9px;
+  color: #718071;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.studentHeader h2 {
+  margin: 0;
+  overflow-wrap: anywhere;
+  color: #214D38;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.5rem;
+  line-height: 1.35;
+}
+
+.studentHeader p {
+  margin: 9px 0 0;
+  color: #68766A;
+  font-size: 0.93rem;
+  line-height: 1.6;
+}
+
+.submitted,
+.late {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 12px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.submitted {
+  border-color: #D1E4D4;
+  background: #EAF4E9;
+  color: #28633B;
+}
+
+.late {
+  border-color: #EAD8B5;
+  background: #FBF0DA;
+  color: #8A5B19;
+}
+
+/* Student's written response */
+
+.submission {
+  margin-top: 26px;
+  padding: 22px;
+  border: 1px solid #E2E5DA;
+  border-radius: 12px;
+  background: #F8F8F2;
+}
+
+.submission h3 {
+  margin: 0 0 13px;
+  color: #214D38;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.submission p {
+  margin: 0;
+  color: #46564A;
+  font-size: 0.95rem;
+  line-height: 1.85;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.fileLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+  padding: 11px 15px;
+  border: 1px solid #C9D7C7;
+  border-radius: 9px;
+  background: #F0F4EB;
+  color: #214D38;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.fileLink:hover {
+  border-color: #8FA891;
+  background: #E5EBDD;
+  text-decoration: underline;
+}
+
+.fileLink:focus-visible {
+  outline: 3px solid #A8B99F;
+  outline-offset: 3px;
+}
+
+/* Grading form */
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 30px;
+  border: 1px solid #DDE3D7;
+  border-radius: 18px;
+  background: #FFFFFF;
+  box-shadow: 0 10px 28px rgb(35 55 39 / 5%);
+}
+
+.formHeader {
+  margin-bottom: 10px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid #E6E9E0;
+}
+
+.formHeader h2 {
+  margin: 0;
+  color: #214D38;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.65rem;
+  font-weight: 700;
+}
+
+.formHeader p {
+  margin: 9px 0 0;
+  color: #718071;
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.form label {
+  margin-top: 8px;
+  color: #344B39;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.marksWrapper {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  max-width: 400px;
+}
+
+.marksWrapper input {
+  width: 100%;
+  min-width: 0;
+  padding: 13px 14px;
+  border: 1px solid #D5DDD2;
+  border-radius: 10px;
+  outline: none;
+  background: #FDFDF9;
+  color: #26382D;
+  font: inherit;
+  font-size: 1rem;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.marksWrapper input:focus,
+.form textarea:focus {
+  border-color: #6E9275;
+  background: #FFFFFF;
+  box-shadow: 0 0 0 3px rgb(110 146 117 / 14%);
+}
+
+.marksWrapper input::placeholder,
+.form textarea::placeholder {
+  color: #9AA399;
+}
+
+.marksWrapper > span {
+  flex-shrink: 0;
+  color: #68766A;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.form textarea {
+  width: 100%;
+  min-height: 130px;
+  padding: 14px;
+  border: 1px solid #D5DDD2;
+  border-radius: 10px;
+  outline: none;
+  background: #FDFDF9;
+  color: #26382D;
+  font: inherit;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  resize: vertical;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.error {
+  margin: 4px 0;
+  padding: 12px 14px;
+  border: 1px solid #E9C7C0;
+  border-radius: 9px;
+  background: #FFF0ED;
+  color: #A33327;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.submitButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-start;
+  min-height: 46px;
+  margin-top: 12px;
+  padding: 12px 24px;
+  border: 1px solid #214D38;
+  border-radius: 10px;
+  background: #214D38;
+  color: #FFFFFF;
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.submitButton:hover:not(:disabled) {
+  background: #173A29;
+  box-shadow: 0 6px 14px rgb(33 77 56 / 16%);
+  transform: translateY(-1px);
+}
+
+.submitButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+/* Tablet */
+
+@media (max-width: 768px) {
+  .page {
+    padding: 28px 18px 42px;
+  }
+
+  .assignmentCard {
+    padding: 22px;
+  }
+
+  .studentCard {
+    padding: 22px;
+  }
+
+  .form {
+    padding: 26px 22px;
+  }
+}
+
+/* Mobile */
+
+@media (max-width: 480px) {
+  .page {
+    padding: 22px 14px 34px;
+  }
+
+  .backButton {
+    margin-bottom: 22px;
+    padding: 9px 12px;
+    font-size: 0.83rem;
+  }
+
+  .header {
+    margin-bottom: 22px;
+  }
+
+  .header h1 {
+    font-size: 1.9rem;
+  }
+
+  .header p {
+    font-size: 0.9rem;
+  }
+
+  .assignmentCard {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+    padding: 20px;
+  }
+
+  .assignmentCard > div:last-child {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .studentCard {
+    padding: 20px;
+  }
+
+  .studentHeader {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .studentHeader h2 {
+    font-size: 1.3rem;
+  }
+
+  .submission {
+    padding: 17px;
+  }
+
+  .form {
+    gap: 11px;
+    padding: 22px 18px;
+    border-radius: 14px;
+  }
+
+  .formHeader h2 {
+    font-size: 1.45rem;
+  }
+
+  .marksWrapper {
+    gap: 10px;
+  }
+
+  .marksWrapper input {
+    padding: 12px;
+  }
+
+  .form textarea {
+    min-height: 120px;
+  }
+
+  .submitButton {
+    width: 100%;
+    align-self: stretch;
+  }
+
+  .errorCard {
+    margin: 36px auto;
+    padding: 26px 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .backButton,
+  .fileLink,
+  .marksWrapper input,
+  .form textarea,
+  .submitButton {
+    transition: none;
+  }
+}
