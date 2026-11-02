@@ -15,12 +15,15 @@ import { validate } from "../middleware/validate.middleware";
 import { protect } from "../middleware/auth.middleware";
 import { authorizeRoles } from "../middleware/role.middleware";
 import { validateObjectId } from "../middleware/validateObjectId.middleware";
+import { apiRateLimiter } from "../middleware/rateLimit.middleware";
 
 const router = Router();
 
 // Students can view their own results.
+// Students can view their own results.
 router.get(
   "/my-results",
+  apiRateLimiter,
   protect,
   authorizeRoles("student"),
   getStudentResults
@@ -29,6 +32,7 @@ router.get(
 // Only teachers can upload results.
 router.post(
   "/",
+  apiRateLimiter,
   protect,
   authorizeRoles("teacher"),
   validate(createResultSchema),
@@ -37,6 +41,7 @@ router.post(
 
 router.put(
   "/:id",
+  apiRateLimiter,
   protect,
   authorizeRoles("teacher"),
   validateObjectId("id"),

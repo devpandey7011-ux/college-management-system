@@ -17,14 +17,16 @@ import {
   updateNoticeSchema,
 } from "../validators/notice.validator";
 import { validateObjectId } from "../middleware/validateObjectId.middleware";
+import { apiRateLimiter } from "../middleware/rateLimit.middleware";
 
 const router = Router();
 
-router.get("/public", getPublicNotices);
+router.get("/public", apiRateLimiter, getPublicNotices);
 
 // Admin
 router.post(
   "/",
+  apiRateLimiter,
   protect,
   authorizeRoles("admin"),
   validate(createNoticeSchema),
@@ -33,6 +35,7 @@ router.post(
 
 router.put(
   "/:id",
+  apiRateLimiter,
   protect,
   authorizeRoles("admin"),
   validateObjectId("id"),
@@ -42,6 +45,7 @@ router.put(
 
 router.delete(
   "/:id",
+  apiRateLimiter,
   protect,
   authorizeRoles("admin"),
   validateObjectId("id"),
@@ -51,6 +55,7 @@ router.delete(
 // Authenticated users
 router.get(
   "/",
+  apiRateLimiter,
   protect,
   authorizeRoles("admin", "student", "teacher"),
   getNotices
@@ -58,6 +63,7 @@ router.get(
 
 router.get(
   "/:id",
+  apiRateLimiter,
   protect,
   authorizeRoles("admin", "student", "teacher"),
   validateObjectId("id"),

@@ -9,11 +9,12 @@ import {
 
 import { protect } from "../middleware/auth.middleware";
 import { authorizeRoles } from "../middleware/role.middleware";
-
+import { apiRateLimiter } from "../middleware/rateLimit.middleware";
 const router = Router();
 
 router.get(
   "/students",
+  apiRateLimiter,
   protect,
   authorizeRoles("teacher"),
   getTeacherStudents
@@ -21,6 +22,7 @@ router.get(
 
 router.get(
   "/subject-assignments",
+  apiRateLimiter,
   protect,
   authorizeRoles("teacher"),
   getTeacherSubjectAssignments
@@ -28,6 +30,7 @@ router.get(
 
 router.get(
   "/profile",
+  apiRateLimiter,
   protect,
   authorizeRoles("teacher"),
   getTeacherProfile
@@ -35,9 +38,9 @@ router.get(
 
 router.put(
   "/profile",
+  apiRateLimiter,
   protect,
   authorizeRoles("teacher"),
   updateTeacherProfile
 );
-
 export default router;
