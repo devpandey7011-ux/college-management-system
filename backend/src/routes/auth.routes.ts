@@ -76,6 +76,6 @@ router.post(
   resetPassword
 );
 
-router.get("/me", protect, getMe);
+router.get("/me",apiRateLimiter, protect, getMe);
 
 export default router;
