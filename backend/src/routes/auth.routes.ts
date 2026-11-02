@@ -23,10 +23,12 @@ import {
 import {
   loginRateLimiter,
   otpRequestRateLimiter,
+  apiRateLimiter,
 } from "../middleware/rateLimit.middleware";
 
 import { protect } from "../middleware/auth.middleware";
 import { validate } from "../middleware/validate.middleware";
+
 
 
 const router = Router();
@@ -41,6 +43,7 @@ router.post(
 
 router.post(
   "/verify-reset-otp",
+  apiRateLimiter,
   validate(verifyResetOtpSchema),
   verifyResetOtp
 );
@@ -61,12 +64,14 @@ router.post(
 
 router.post(
   "/register/verify-otp",
+  apiRateLimiter,
   validate(verifyRegisterOtpSchema),
   verifyRegisterOtp
 );
 
 router.post(
   "/reset-password",
+  apiRateLimiter,
   validate(resetPasswordSchema),
   resetPassword
 );
