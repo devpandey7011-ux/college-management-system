@@ -24,3 +24,14 @@ export const otpRequestRateLimiter = rateLimit({
     message: "Too many OTP requests. Please try again later.",
   },
 });
+
+export const apiRateLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 100,
+  standardHeaders: "draft-8",
+  legacyHeaders: false,
+  skip: () => isTest,
+  message: {
+    message: "Too many requests. Please try again later.",
+  },
+});

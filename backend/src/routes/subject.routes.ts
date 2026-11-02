@@ -10,25 +10,17 @@ import {
 
 import { protect } from "../middleware/auth.middleware";
 import { authorizeRoles } from "../middleware/role.middleware";
+import { apiRateLimiter } from "../middleware/rateLimit.middleware";
 
 const router = Router();
 
-// Authenticated users can view subjects
-router.get(
-  "/",
-  protect,
-  getSubjects
-);
+router.get("/", apiRateLimiter, protect, getSubjects);
 
-router.get(
-  "/:id",
-  protect,
-  getSubjectById
-);
+router.get("/:id", apiRateLimiter, protect, getSubjectById);
 
-// Only admin can manage subjects
 router.post(
   "/",
+  apiRateLimiter,
   protect,
   authorizeRoles("admin"),
   createSubject
@@ -36,6 +28,7 @@ router.post(
 
 router.put(
   "/:id",
+  apiRateLimiter,
   protect,
   authorizeRoles("admin"),
   updateSubject
@@ -43,9 +36,9 @@ router.put(
 
 router.delete(
   "/:id",
+  apiRateLimiter,
   protect,
   authorizeRoles("admin"),
   deleteSubject
 );
-
 export default router;
