@@ -24,11 +24,13 @@ import { protect } from "../middleware/auth.middleware";
 import { authorizeRoles } from "../middleware/role.middleware";
 
 import { validateObjectId } from "../middleware/validateObjectId.middleware";
+import { apiRateLimiter } from "../middleware/rateLimit.middleware";
 
 const router = Router();
 
 router.post(
   "/",
+ apiRateLimiter,
   protect,
   authorizeRoles("teacher"),
   validate(createAssignmentSchema),
@@ -39,6 +41,7 @@ router.post(
 
 router.get(
   "/my-assignments",
+ apiRateLimiter,
   protect,
   authorizeRoles("student"),
   getMyAssignments
@@ -46,6 +49,7 @@ router.get(
 
 router.post(
   "/:id/submit",
+ apiRateLimiter,
   protect,
   authorizeRoles("student"),
   validateObjectId("id"),
@@ -55,6 +59,7 @@ router.post(
 
 router.get(
   "/:id/submissions",
+ apiRateLimiter,
   protect,
   authorizeRoles("teacher"),
   validateObjectId("id"),
@@ -63,6 +68,7 @@ router.get(
 
 router.put(
   "/submissions/:submissionId/grade",
+ apiRateLimiter,
   protect,
   authorizeRoles("teacher"),
   validateObjectId("submissionId"),
@@ -71,6 +77,7 @@ router.put(
 );
 router.get(
   "/:id/my-submission",
+ apiRateLimiter,
   protect,
   authorizeRoles("student"),
   validateObjectId("id"),
@@ -79,6 +86,7 @@ router.get(
 
 router.get(
   "/my-created",
+ apiRateLimiter,
   protect,
   authorizeRoles("teacher"),
   getMyTeacherAssignments
@@ -86,6 +94,7 @@ router.get(
 
 router.delete(
   "/:id",
+ apiRateLimiter,
   protect,
   authorizeRoles("teacher"),
   validateObjectId("id"),
@@ -94,6 +103,7 @@ router.delete(
 
 router.put(
   "/:id",
+ apiRateLimiter,
   protect,
   authorizeRoles("teacher"),
   validateObjectId("id"),
@@ -103,6 +113,7 @@ router.put(
 
 router.get(
   "/:id/statistics",
+ apiRateLimiter,
   protect,
   authorizeRoles("teacher"),
   validateObjectId("id"),

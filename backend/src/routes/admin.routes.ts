@@ -47,6 +47,7 @@ import { validate } from "../middleware/validate.middleware";
 import { protect } from "../middleware/auth.middleware";
 import { authorizeRoles } from "../middleware/role.middleware";
 import { validateObjectId } from "../middleware/validateObjectId.middleware";
+import { apiRateLimiter } from "../middleware/rateLimit.middleware";
 
 const router = Router();
 
@@ -54,6 +55,7 @@ const router = Router();
 
 router.get(
   "/students",
+ apiRateLimiter,
   protect,
   authorizeRoles("admin"),
   getAllStudents
@@ -61,6 +63,7 @@ router.get(
 
 router.post(
   "/students",
+ apiRateLimiter,
   protect,
   authorizeRoles("admin"),
   validate(createStudentSchema),
@@ -69,6 +72,7 @@ router.post(
 
 router.put(
   "/students/:id",
+ apiRateLimiter,
   protect,
   authorizeRoles("admin"),
   validateObjectId("id"),
@@ -78,6 +82,7 @@ router.put(
 
 router.delete(
   "/students/:id",
+ apiRateLimiter,
   protect,
   authorizeRoles("admin"),
   validateObjectId("id"),
@@ -87,6 +92,7 @@ router.delete(
 
 router.get(
   "/teachers",
+ apiRateLimiter,
   protect,
   authorizeRoles("admin"),
   getAllTeachers
@@ -94,6 +100,7 @@ router.get(
 
 router.post(
   "/teachers",
+ apiRateLimiter,
   protect,
   authorizeRoles("admin"),
   validate(createTeacherSchema),
@@ -102,6 +109,7 @@ router.post(
 
 router.put(
   "/teachers/:id",
+ apiRateLimiter,
   protect,
   authorizeRoles("admin"),
   validateObjectId("id"),
@@ -111,6 +119,7 @@ router.put(
 
 router.delete(
   "/teachers/:id",
+ apiRateLimiter,
   protect,
   authorizeRoles("admin"),
   validateObjectId("id"),
@@ -120,6 +129,7 @@ router.delete(
 
 router.get(
   "/subject-assignments",
+ apiRateLimiter,
   protect,
   authorizeRoles("admin"),
   getSubjectAssignments
@@ -127,6 +137,7 @@ router.get(
 
 router.post(
   "/subject-assignments",
+ apiRateLimiter,
   protect,
   authorizeRoles("admin"),
   validate(createSubjectAssignmentSchema),
@@ -135,6 +146,7 @@ router.post(
 
 router.delete(
   "/subject-assignments/:id",
+ apiRateLimiter,
   protect,
   authorizeRoles("admin"),
   validateObjectId("id"),
@@ -143,6 +155,7 @@ router.delete(
 
 router.post(
   "/courses",
+ apiRateLimiter,
   protect,
   authorizeRoles("admin"),
   validate(createCourseSchema),
@@ -151,6 +164,7 @@ router.post(
 
 router.get(
   "/courses",
+ apiRateLimiter,
   protect,
   authorizeRoles("admin"),
   getAllCourses
@@ -158,6 +172,7 @@ router.get(
 
 router.put(
   "/courses/:id",
+ apiRateLimiter,
   protect,
   authorizeRoles("admin"),
   validateObjectId("id"),
@@ -167,6 +182,7 @@ router.put(
 
 router.delete(
   "/courses/:id",
+ apiRateLimiter,
   protect,
   authorizeRoles("admin"),
   validateObjectId("id"),
@@ -175,6 +191,7 @@ router.delete(
 
 router.post(
   "/subjects",
+ apiRateLimiter,
   protect,
   authorizeRoles("admin"),
   validate(createSubjectSchema),
@@ -183,6 +200,7 @@ router.post(
 
 router.get(
   "/subjects",
+ apiRateLimiter,
   protect,
   authorizeRoles("admin"),
   getAllSubjects
@@ -190,6 +208,7 @@ router.get(
 
 router.put(
   "/subjects/:id",
+ apiRateLimiter,
   protect,
   authorizeRoles("admin"),
   validateObjectId("id"),
@@ -199,6 +218,7 @@ router.put(
 
 router.delete(
   "/subjects/:id",
+ apiRateLimiter,
   protect,
   authorizeRoles("admin"),
   validateObjectId("id"),

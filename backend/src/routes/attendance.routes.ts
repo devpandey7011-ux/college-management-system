@@ -13,12 +13,14 @@ import {
   updateAttendanceSchema,
 } from "../validators/attendance.validator";
 import { validateObjectId } from "../middleware/validateObjectId.middleware";
+import { apiRateLimiter } from "../middleware/rateLimit.middleware";
 
 const router = Router();
 
 // Teacher
 router.post(
   "/",
+ apiRateLimiter,
   protect,
   authorizeRoles("teacher"),
   validate(createAttendanceSchema),
@@ -27,6 +29,7 @@ router.post(
 
 router.put(
   "/:id",
+ apiRateLimiter,
   protect,
   authorizeRoles("teacher"),
   validateObjectId("id"),
@@ -37,6 +40,7 @@ router.put(
 // Student
 router.get(
   "/my-attendance",
+ apiRateLimiter,
   protect,
   authorizeRoles("student"),
   getStudentAttendance
@@ -44,6 +48,7 @@ router.get(
 
 router.get(
   "/my-summary",
+ apiRateLimiter,
   protect,
   authorizeRoles("student"),
   getStudentAttendanceSummary

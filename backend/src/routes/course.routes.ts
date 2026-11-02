@@ -10,18 +10,21 @@ import {
 
 import { protect } from "../middleware/auth.middleware";
 import { authorizeRoles } from "../middleware/role.middleware";
+import { apiRateLimiter } from "../middleware/rateLimit.middleware";
 
 const router = Router();
 
 // Anyone authenticated can view courses
 router.get(
   "/",
+ apiRateLimiter,
   protect,
   getCourses
 );
 
 router.get(
   "/:id",
+ apiRateLimiter,
   protect,
   getCourseById
 );
@@ -29,6 +32,7 @@ router.get(
 // Only admin can manage courses
 router.post(
   "/",
+ apiRateLimiter,
   protect,
   authorizeRoles("admin"),
   createCourse
@@ -36,6 +40,7 @@ router.post(
 
 router.put(
   "/:id",
+ apiRateLimiter,
   protect,
   authorizeRoles("admin"),
   updateCourse
@@ -43,6 +48,7 @@ router.put(
 
 router.delete(
   "/:id",
+ apiRateLimiter,
   protect,
   authorizeRoles("admin"),
   deleteCourse
