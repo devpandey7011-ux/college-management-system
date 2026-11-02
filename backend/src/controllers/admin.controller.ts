@@ -2845,9 +2845,13 @@ export const updateSubject = async (
         ? semester
         : subject.semester;
 
+    const finalCourseObjectId = new mongoose.Types.ObjectId(
+      String(finalCourseId)
+    );
+
     const courseExists =
       await Course.findById(
-        finalCourseId
+        finalCourseObjectId
       ).select(
         "_id totalSemesters"
       );
