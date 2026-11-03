@@ -1,4 +1,5 @@
 import {  Response } from "express";
+import mongoose from "mongoose";
 import Result from "../models/Result.model";
 import Student from "../models/Student.model";
 import Subject from "../models/Subject.model";
@@ -42,6 +43,7 @@ export const createResult = async (
       remarks,
     } = req.body;
 
+    // Validate required fields.
     if (
       !student ||
       !subject ||
@@ -54,8 +56,27 @@ export const createResult = async (
       });
     }
 
+    // Validate and canonicalize IDs.
+    if (
+      typeof student !== "string" ||
+      !mongoose.isValidObjectId(student) ||
+      typeof subject !== "string" ||
+      !mongoose.isValidObjectId(subject)
+    ) {
+      return res.status(400).json({
+        message: "Invalid student or subject ID",
+      });
+    }
+
+    const studentObjectId = new mongoose.Types.ObjectId(student);
+    const subjectObjectId = new mongoose.Types.ObjectId(subject);
+    const teacherObjectId = new mongoose.Types.ObjectId(
+      String(req.user.id)
+    );
+
+    // Find teacher.
     const teacher = await Teacher.findOne({
-      user: req.user.id,
+      user: teacherObjectId,
     });
 
     if (!teacher) {
@@ -64,8 +85,10 @@ export const createResult = async (
       });
     }
 
-    const studentExists =
-      await Student.findById(student);
+    // Find student.
+    const studentExists = await Student.findById(
+      studentObjectId
+    );
 
     if (!studentExists) {
       return res.status(404).json({
@@ -73,8 +96,10 @@ export const createResult = async (
       });
     }
 
-    const subjectExists =
-      await Subject.findById(subject);
+    // Find subject.
+    const subjectExists = await Subject.findById(
+      subjectObjectId
+    );
 
     if (!subjectExists) {
       return res.status(404).json({
@@ -82,12 +107,10 @@ export const createResult = async (
       });
     }
 
-    // Resolve the student's course code
-    // to the Course document.
-    const studentCourse =
-      await Course.findOne({
-        code: studentExists.course.toUpperCase(),
-      });
+    // Resolve the student's course code to the Course document.
+    const studentCourse = await Course.findOne({
+      code: studentExists.course.toUpperCase(),
+    });
 
     if (!studentCourse) {
       return res.status(404).json({
@@ -95,8 +118,7 @@ export const createResult = async (
       });
     }
 
-    // Make sure the subject belongs to
-    // the student's course.
+    // Make sure the subject belongs to the student's course.
     if (
       subjectExists.courseId.toString() !==
       studentCourse._id.toString()
@@ -107,31 +129,24 @@ export const createResult = async (
       });
     }
 
-    // Make sure the subject belongs to
-    // the student's semester.
-    if (
-      subjectExists.semester !==
-      studentExists.semester
-    ) {
+    // Make sure the subject belongs to the student's semester.
+    if (subjectExists.semester !== studentExists.semester) {
       return res.status(403).json({
         message:
           "Subject does not belong to the student's semester",
       });
     }
 
-    // Check whether this teacher is assigned
-    // to the requested subject.
-    const assignment =
-      await SubjectAssignment.findOne({
-        teacher: teacher._id,
-        subject: subjectExists._id,
-        course: studentCourse._id,
-      });
+    // Check whether this teacher is assigned to the requested subject.
+    const assignment = await SubjectAssignment.findOne({
+      teacher: teacher._id,
+      subject: subjectExists._id,
+      course: studentCourse._id,
+    });
 
     if (!assignment) {
       return res.status(403).json({
-        message:
-          "You are not assigned to this subject",
+        message: "You are not assigned to this subject",
       });
     }
 
@@ -149,10 +164,7 @@ export const createResult = async (
       });
     }
 
-    if (
-      marksObtained < 0 ||
-      marksObtained > maxMarks
-    ) {
+    if (marksObtained < 0 || marksObtained > maxMarks) {
       return res.status(400).json({
         message:
           "Marks obtained must be between 0 and maximum marks",
@@ -161,22 +173,15 @@ export const createResult = async (
 
     // Validate exam type.
     if (
-      ![
-        "internal",
-        "midterm",
-        "final",
-      ].includes(examType)
+      !["internal", "midterm", "final"].includes(examType)
     ) {
       return res.status(400).json({
         message: "Invalid exam type",
       });
     }
 
-    // Validate remarks if supplied.
-    if (
-      remarks !== undefined &&
-      typeof remarks !== "string"
-    ) {
+    // Validate remarks.
+    if (remarks !== undefined && typeof remarks !== "string") {
       return res.status(400).json({
         message: "Remarks must be a string",
       });
@@ -192,23 +197,18 @@ export const createResult = async (
       trimmedRemarks.length > 2000
     ) {
       return res.status(400).json({
-        message:
-          "Remarks cannot exceed 2000 characters",
+        message: "Remarks cannot exceed 2000 characters",
       });
     }
 
-    const grade = calculateGrade(
-      marksObtained,
-      maxMarks
-    );
+    const grade = calculateGrade(marksObtained, maxMarks);
 
     // Prevent duplicate results.
-    const existingResult =
-      await Result.findOne({
-        student: studentExists._id,
-        subject: subjectExists._id,
-        examType,
-      });
+    const existingResult = await Result.findOne({
+      student: studentExists._id,
+      subject: subjectExists._id,
+      examType,
+    });
 
     if (existingResult) {
       return res.status(409).json({
@@ -268,8 +268,17 @@ export const updateResult = async (
       });
     }
 
-    const result =
-      await Result.findById(req.params.id);
+        const resultId = String(req.params.id);
+
+        if (!mongoose.isValidObjectId(resultId)) {
+          return res.status(400).json({
+            message: "Invalid result ID",
+          });
+        }
+
+        const resultObjectId = new mongoose.Types.ObjectId(resultId);
+
+        const result = await Result.findById(resultObjectId);
 
     if (!result) {
       return res.status(404).json({
@@ -277,8 +286,12 @@ export const updateResult = async (
       });
     }
 
+    const teacherObjectId = new mongoose.Types.ObjectId(
+      String(req.user.id)
+    );
+
     const teacher = await Teacher.findOne({
-      user: req.user.id,
+      user: teacherObjectId,
     });
 
     if (!teacher) {
@@ -438,9 +451,12 @@ export const getStudentResults = async (
       });
     }
 
-    const student =
-      await Student.findOne({
-        userId: req.user.id,
+      const userObjectId = new mongoose.Types.ObjectId(
+        String(req.user.id)
+      );
+
+      const student = await Student.findOne({
+        userId: userObjectId,
       }).select("_id");
 
     if (!student) {

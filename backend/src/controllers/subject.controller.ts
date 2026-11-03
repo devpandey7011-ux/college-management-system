@@ -384,11 +384,14 @@ export const updateSubject = async (
       });
     }
 
-    if (courseId !== undefined) {
-      const courseExists = await Course.findById(
-        courseId
-      );
+        if (courseId !== undefined) {
+        const courseObjectId = new mongoose.Types.ObjectId(
+          String(courseId)
+        );
 
+        const courseExists = await Course.findById(
+          courseObjectId
+        );
       if (!courseExists) {
         return res.status(404).json({
           message: "Course not found",

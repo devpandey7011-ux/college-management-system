@@ -7,6 +7,8 @@ import Subject from "../models/Subject.model";
 import Student from "../models/Student.model";
 import Course from "../models/Course.model";
 import { AuthRequest } from "../middleware/auth.middleware";
+import mongoose from "mongoose";
+
 
 export const createAssignment = async (
   req: AuthRequest,
@@ -16,16 +18,6 @@ export const createAssignment = async (
     if (!req.user) {
       return res.status(401).json({
         message: "Authentication required",
-      });
-    }
-
-    const teacher = await Teacher.findOne({
-      user: req.user.id,
-    });
-
-    if (!teacher) {
-      return res.status(404).json({
-        message: "Teacher profile not found",
       });
     }
 
@@ -55,6 +47,39 @@ export const createAssignment = async (
       });
     }
 
+    // Validate subject and course IDs
+    if (
+      typeof subject !== "string" ||
+      !mongoose.isValidObjectId(subject) ||
+      typeof course !== "string" ||
+      !mongoose.isValidObjectId(course)
+    ) {
+      return res.status(400).json({
+        message: "Invalid subject or course ID",
+      });
+    }
+
+    const teacherObjectId =
+      new mongoose.Types.ObjectId(
+        String(req.user.id)
+      );
+
+    const subjectObjectId =
+      new mongoose.Types.ObjectId(subject);
+
+    const courseObjectId =
+      new mongoose.Types.ObjectId(course);
+
+    const teacher = await Teacher.findOne({
+      user: teacherObjectId,
+    });
+
+    if (!teacher) {
+      return res.status(404).json({
+        message: "Teacher profile not found",
+      });
+    }
+
     // Validate max marks
     if (
       typeof maxMarks !== "number" ||
@@ -69,7 +94,8 @@ export const createAssignment = async (
     }
 
     // Find subject
-    const subjectDoc = await Subject.findById(subject);
+    const subjectDoc =
+      await Subject.findById(subjectObjectId);
 
     if (!subjectDoc) {
       return res.status(404).json({
@@ -78,7 +104,8 @@ export const createAssignment = async (
     }
 
     // Find course
-    const courseDoc = await Course.findById(course);
+    const courseDoc =
+      await Course.findById(courseObjectId);
 
     if (!courseDoc) {
       return res.status(404).json({
@@ -172,6 +199,8 @@ export const createAssignment = async (
     });
   }
 };
+
+
 export const getMyAssignments = async (
   req: AuthRequest,
   res: Response
@@ -263,6 +292,7 @@ export const getMyAssignments = async (
     });
   }
 };
+
 export const submitAssignment = async (
   req: AuthRequest,
   res: Response
@@ -522,6 +552,7 @@ export const submitAssignment = async (
     });
   }
 };
+
 export const getAssignmentSubmissions = async (
   req: AuthRequest,
   res: Response
@@ -711,6 +742,7 @@ export const getAssignmentSubmissions = async (
     });
   }
 };
+
 export const gradeAssignmentSubmission = async (
   req: AuthRequest,
   res: Response
@@ -1194,6 +1226,7 @@ export const deleteAssignment = async (
   }
 };
 
+
 export const updateAssignment = async (
   req: AuthRequest,
   res: Response
@@ -1205,8 +1238,13 @@ export const updateAssignment = async (
       });
     }
 
+    const teacherObjectId =
+      new mongoose.Types.ObjectId(
+        String(req.user.id)
+      );
+
     const teacher = await Teacher.findOne({
-      user: req.user.id,
+      user: teacherObjectId,
     });
 
     if (!teacher) {
@@ -1215,9 +1253,20 @@ export const updateAssignment = async (
       });
     }
 
-    const assignment = await Assignment.findById(
-      req.params.id
-    );
+    // Validate assignment ID before querying.
+    const assignmentId = String(req.params.id);
+
+    if (!mongoose.isValidObjectId(assignmentId)) {
+      return res.status(400).json({
+        message: "Invalid assignment ID",
+      });
+    }
+
+    const assignmentObjectId =
+      new mongoose.Types.ObjectId(assignmentId);
+
+    const assignment =
+      await Assignment.findById(assignmentObjectId);
 
     if (!assignment) {
       return res.status(404).json({
@@ -1363,6 +1412,7 @@ export const updateAssignment = async (
     });
   }
 };
+
 
 export const getAssignmentStatistics = async (
   req: AuthRequest,

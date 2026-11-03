@@ -6,6 +6,8 @@ import Teacher from "../models/Teacher.model";
 import Course from "../models/Course.model";
 import SubjectAssignment from "../models/SubjectAssignment.model";
 import { AuthRequest } from "../middleware/auth.middleware";
+import mongoose from "mongoose";
+
 
 export const createAttendance = async (
   req: AuthRequest,
@@ -37,6 +39,29 @@ export const createAttendance = async (
           "Student, subject, date and status are required",
       });
     }
+
+    // Validate student and subject IDs.
+    if (
+      typeof student !== "string" ||
+      !mongoose.isValidObjectId(student) ||
+      typeof subject !== "string" ||
+      !mongoose.isValidObjectId(subject)
+    ) {
+      return res.status(400).json({
+        message: "Invalid student or subject ID",
+      });
+    }
+
+    const studentObjectId =
+      new mongoose.Types.ObjectId(student);
+
+    const subjectObjectId =
+      new mongoose.Types.ObjectId(subject);
+
+    const teacherObjectId =
+      new mongoose.Types.ObjectId(
+        String(req.user.id)
+      );
 
     if (typeof date !== "string") {
       return res.status(400).json({
@@ -95,7 +120,7 @@ export const createAttendance = async (
 
     const teacher =
       await Teacher.findOne({
-        user: req.user.id,
+        user: teacherObjectId,
       });
 
     if (!teacher) {
@@ -105,7 +130,9 @@ export const createAttendance = async (
     }
 
     const studentExists =
-      await Student.findById(student);
+      await Student.findById(
+        studentObjectId
+      );
 
     if (!studentExists) {
       return res.status(404).json({
@@ -114,7 +141,9 @@ export const createAttendance = async (
     }
 
     const subjectExists =
-      await Subject.findById(subject);
+      await Subject.findById(
+        subjectObjectId
+      );
 
     if (!subjectExists) {
       return res.status(404).json({
@@ -238,6 +267,8 @@ export const createAttendance = async (
   }
 };
 
+
+
 export const updateAttendance = async (
   req: AuthRequest,
   res: Response
@@ -249,9 +280,21 @@ export const updateAttendance = async (
       });
     }
 
+    // Validate attendance ID before querying.
+    const attendanceId = String(req.params.id);
+
+    if (!mongoose.isValidObjectId(attendanceId)) {
+      return res.status(400).json({
+        message: "Invalid attendance ID",
+      });
+    }
+
+    const attendanceObjectId =
+      new mongoose.Types.ObjectId(attendanceId);
+
     const attendance =
       await Attendance.findById(
-        req.params.id
+        attendanceObjectId
       );
 
     if (!attendance) {
@@ -261,9 +304,14 @@ export const updateAttendance = async (
       });
     }
 
+    const teacherObjectId =
+      new mongoose.Types.ObjectId(
+        String(req.user.id)
+      );
+
     const teacher =
       await Teacher.findOne({
-        user: req.user.id,
+        user: teacherObjectId,
       });
 
     if (!teacher) {
@@ -409,8 +457,7 @@ export const getStudentAttendance = async (
   }
 };
 
-export const getStudentAttendanceSummary =
-  async (
+export const getStudentAttendanceSummary = async (
     req: AuthRequest,
     res: Response
   ) => {

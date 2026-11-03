@@ -1,6 +1,7 @@
 import { Response } from "express";
 import Student from "../models/Student.model";
 import { AuthRequest } from "../middleware/auth.middleware";
+import mongoose from "mongoose";
 
 export const getStudentProfile = async (
   req: AuthRequest,
@@ -12,9 +13,12 @@ export const getStudentProfile = async (
         message: "Authentication required",
       });
     }
+    const userObjectId = new mongoose.Types.ObjectId(
+      String(req.user.id)
+    );
 
     const student = await Student.findOne({
-      userId: req.user.id,
+     userId: userObjectId,
     }).populate("userId", "name email role");
 
     if (!student) {
@@ -44,6 +48,9 @@ export const updateStudentProfile = async (
         message: "Authentication required",
       });
     }
+    const userObjectId = new mongoose.Types.ObjectId(
+      String(req.user.id)
+    );
 
    const { phone, dateOfBirth } = req.body;
 
@@ -61,7 +68,7 @@ if (dateOfBirth !== undefined) {
 }
 
 const student = await Student.findOneAndUpdate(
-  { userId: req.user.id },
+  { userId: userObjectId },
   updateData,
       {
        returnDocument: "after",
