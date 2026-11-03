@@ -1,10 +1,22 @@
 
 "use client";
 
-import { FormEvent, useEffect, useState } from "react";
+import {
+  FormEvent,
+  useEffect,
+  useState,
+  useSyncExternalStore,
+} from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
+
+const subscribe = () => () => {};
+
+const getTokenStatus = () =>
+  sessionStorage.getItem("passwordResetToken") ? "valid" : "missing";
+
+const getServerTokenStatus = () => "checking";
 
 export default function ResetPasswordPage() {
   const router = useRouter();
@@ -14,20 +26,22 @@ export default function ResetPasswordPage() {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [isCheckingToken, setIsCheckingToken] = useState(true);
+
+  const tokenStatus = useSyncExternalStore(
+    subscribe,
+    getTokenStatus,
+    getServerTokenStatus
+  );
 
   useEffect(() => {
-    const token = sessionStorage.getItem("passwordResetToken");
-
-    if (!token) {
+    if (tokenStatus === "missing") {
       router.replace("/forgot-password");
-      return;
     }
+  }, [tokenStatus, router]);
 
-    setIsCheckingToken(false);
-  }, [router]);
-
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (
+    event: FormEvent<HTMLFormElement>
+  ) => {
     event.preventDefault();
     setError("");
     setMessage("");
@@ -45,7 +59,9 @@ export default function ResetPasswordPage() {
     const resetToken = sessionStorage.getItem("passwordResetToken");
 
     if (!resetToken) {
-      setError("Your reset session has expired. Please request a new code.");
+      setError(
+        "Your reset session has expired. Please request a new code."
+      );
       return;
     }
 
@@ -69,14 +85,17 @@ export default function ResetPasswordPage() {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || "Unable to reset your password.");
+        throw new Error(
+          data.message || "Unable to reset your password."
+        );
       }
 
       sessionStorage.removeItem("passwordResetToken");
       sessionStorage.removeItem("passwordResetEmail");
 
       setMessage(
-        data.message || "Password reset successfully. You can now log in."
+        data.message ||
+          "Password reset successfully. You can now log in."
       );
     } catch (err) {
       setError(
@@ -89,8 +108,12 @@ export default function ResetPasswordPage() {
     }
   };
 
-  if (isCheckingToken) {
-    return <main className={styles.page} aria-live="polite">Loading...</main>;
+  if (tokenStatus !== "valid") {
+    return (
+      <main className={styles.page} aria-live="polite">
+        Loading...
+      </main>
+    );
   }
 
   return (
@@ -100,7 +123,9 @@ export default function ResetPasswordPage() {
           ← Back to login
         </Link>
 
-        <div className={styles.icon} aria-hidden="true">🔒</div>
+        <div className={styles.icon} aria-hidden="true">
+          🔒
+        </div>
 
         <h1 className={styles.title}>Reset your password</h1>
 
@@ -111,13 +136,16 @@ export default function ResetPasswordPage() {
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.field}>
             <label htmlFor="password">New password</label>
+
             <input
               id="password"
               type="password"
               autoComplete="new-password"
               placeholder="At least 8 characters"
               value={password}
-              onChange={(event) => setPassword(event.target.value)}
+              onChange={(event) =>
+                setPassword(event.target.value)
+              }
               minLength={8}
               required
               disabled={isLoading || !!message}
@@ -125,14 +153,19 @@ export default function ResetPasswordPage() {
           </div>
 
           <div className={styles.field}>
-            <label htmlFor="confirmPassword">Confirm new password</label>
+            <label htmlFor="confirmPassword">
+              Confirm new password
+            </label>
+
             <input
               id="confirmPassword"
               type="password"
               autoComplete="new-password"
               placeholder="Enter your password again"
               value={confirmPassword}
-              onChange={(event) => setConfirmPassword(event.target.value)}
+              onChange={(event) =>
+                setConfirmPassword(event.target.value)
+              }
               minLength={8}
               required
               disabled={isLoading || !!message}
@@ -140,16 +173,22 @@ export default function ResetPasswordPage() {
           </div>
 
           {error && (
-            <p className={styles.error} role="alert">{error}</p>
+            <p className={styles.error} role="alert">
+              {error}
+            </p>
           )}
 
           {message && (
-            <p className={styles.success} role="status">{message}</p>
+            <p className={styles.success} role="status">
+              {message}
+            </p>
           )}
 
           {!message && (
             <button type="submit" disabled={isLoading}>
-              {isLoading ? "Resetting password..." : "Reset password"}
+              {isLoading
+                ? "Resetting password..."
+                : "Reset password"}
             </button>
           )}
 

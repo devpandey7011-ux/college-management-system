@@ -79,7 +79,7 @@ export default function ForgotPasswordPage() {
         </h1>
 
         <p className={styles.subtitle}>
-          Enter your registered email address and we'll send
+          Enter your registered email address and we&apos;ll send
           you a verification code to reset your password.
         </p>
 
