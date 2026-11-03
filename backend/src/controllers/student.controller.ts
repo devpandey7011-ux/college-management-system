@@ -48,30 +48,58 @@ export const updateStudentProfile = async (
         message: "Authentication required",
       });
     }
+
     const userObjectId = new mongoose.Types.ObjectId(
       String(req.user.id)
     );
 
-   const { phone, dateOfBirth } = req.body;
+    const { phone, dateOfBirth } = req.body;
 
-const updateData: {
-  phone?: string;
-  dateOfBirth?: string;
-} = {};
+    const updateData: {
+      phone?: string;
+      dateOfBirth?: string;
+    } = {};
 
-if (phone !== undefined) {
-  updateData.phone = phone;
-}
+    if (phone !== undefined) {
+      if (typeof phone !== "string") {
+        return res.status(400).json({
+          message: "Phone must be a string",
+        });
+      }
 
-if (dateOfBirth !== undefined) {
-  updateData.dateOfBirth = dateOfBirth;
-}
+      updateData.phone = phone.trim();
+    }
 
-const student = await Student.findOneAndUpdate(
-  { userId: userObjectId },
-  updateData,
+    if (dateOfBirth !== undefined) {
+      if (typeof dateOfBirth !== "string") {
+        return res.status(400).json({
+          message: "Date of birth must be a string",
+        });
+      }
+
+      updateData.dateOfBirth = dateOfBirth;
+    }
+
+    if (Object.keys(updateData).length === 0) {
+      return res.status(400).json({
+        message: "No valid profile fields provided",
+      });
+    }
+
+    const student = await Student.findOneAndUpdate(
+      { userId: userObjectId },
       {
-       returnDocument: "after",
+        $set: {
+          ...(updateData.phone !== undefined && {
+            phone: updateData.phone,
+          }),
+          ...(updateData.dateOfBirth !== undefined && {
+            dateOfBirth: updateData.dateOfBirth,
+          }),
+        },
+      },
+      {
+        returnDocument: "after",
         runValidators: true,
       }
     ).populate("userId", "name email role");

@@ -171,14 +171,27 @@ export const createResult = async (
       });
     }
 
-    // Validate exam type.
+    // Validate and normalize exam type.
+    if (typeof examType !== "string") {
+      return res.status(400).json({
+        message: "Exam type must be a string",
+      });
+    }
+
+    const normalizedExamType = examType.trim().toLowerCase();
+
     if (
-      !["internal", "midterm", "final"].includes(examType)
+      !["internal", "midterm", "final"].includes(normalizedExamType)
     ) {
       return res.status(400).json({
         message: "Invalid exam type",
       });
     }
+
+    const validExamType = normalizedExamType as
+      | "internal"
+      | "midterm"
+      | "final";
 
     // Validate remarks.
     if (remarks !== undefined && typeof remarks !== "string") {
@@ -207,7 +220,7 @@ export const createResult = async (
     const existingResult = await Result.findOne({
       student: studentExists._id,
       subject: subjectExists._id,
-      examType,
+      examType: { $eq: validExamType },
     });
 
     if (existingResult) {
@@ -222,7 +235,7 @@ export const createResult = async (
         student: studentExists._id,
         subject: subjectExists._id,
         teacher: teacher._id,
-        examType,
+        examType: validExamType,
         marksObtained,
         maxMarks,
         grade,
@@ -257,6 +270,7 @@ export const createResult = async (
   }
 };
 
+
 export const updateResult = async (
   req: AuthRequest,
   res: Response
@@ -268,17 +282,17 @@ export const updateResult = async (
       });
     }
 
-        const resultId = String(req.params.id);
+    const resultId = String(req.params.id);
 
-        if (!mongoose.isValidObjectId(resultId)) {
-          return res.status(400).json({
-            message: "Invalid result ID",
-          });
-        }
+      if (!mongoose.isValidObjectId(resultId)) {
+           return res.status(400).json({
+             message: "Invalid result ID",
+            });
+          }
 
-        const resultObjectId = new mongoose.Types.ObjectId(resultId);
+          const resultObjectId = new mongoose.Types.ObjectId(resultId);
 
-        const result = await Result.findById(resultObjectId);
+          const result = await Result.findById(resultObjectId);
 
     if (!result) {
       return res.status(404).json({
