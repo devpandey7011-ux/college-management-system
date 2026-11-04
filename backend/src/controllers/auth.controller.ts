@@ -151,7 +151,7 @@ export const requestRegisterOtp = async (
       purpose: "register",
     });
 
-    await Otp.create({
+    const otpRecord = await Otp.create({
       email: normalizedEmail,
       otpHash,
       purpose: "register",
@@ -160,11 +160,19 @@ export const requestRegisterOtp = async (
     });
 
     if (process.env.NODE_ENV !== "test") {
-      await sendOtpEmail(
-        normalizedEmail,
-        otp,
-        "register"
-      );
+      try {
+        await sendOtpEmail(
+          normalizedEmail,
+          otp,
+          "register"
+        );
+      } catch (emailError) {
+        await Otp.deleteOne({
+          _id: otpRecord._id,
+        });
+
+        throw emailError;
+      }
     }
 
     return res.status(200).json({
@@ -338,7 +346,7 @@ export const forgotPassword = async (
       purpose: "reset-password",
     });
 
-    await Otp.create({
+    const otpRecord = await Otp.create({
       email: normalizedEmail,
       otpHash,
       purpose: "reset-password",
@@ -348,15 +356,21 @@ export const forgotPassword = async (
 
     /*
      * Automated tests must not depend on a real SMTP server.
-     * The OTP is still generated and stored exactly as it is
-     * in development/production.
      */
     if (process.env.NODE_ENV !== "test") {
-      await sendOtpEmail(
-        normalizedEmail,
-        otp,
-        "reset-password"
-      );
+      try {
+        await sendOtpEmail(
+          normalizedEmail,
+          otp,
+          "reset-password"
+        );
+      } catch (emailError) {
+        await Otp.deleteOne({
+          _id: otpRecord._id,
+        });
+
+        throw emailError;
+      }
     }
 
     return res.status(200).json({

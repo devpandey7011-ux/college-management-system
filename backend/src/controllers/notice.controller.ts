@@ -27,14 +27,14 @@ const isValidOptionalBoolean = (value: unknown): value is boolean =>
 
 const getUserCourseIds = async (
   userId: string,
-  role: "student" | "teacher"
+  role: "admin" | "student" | "teacher"
 ): Promise<string[]> => {
-  if (!mongoose.Types.ObjectId.isValid(userId)) {
+  if (role === "admin") {
     return [];
   }
 
   if (role === "student") {
-    const student = await Student.findOne({ user: userId })
+    const student = await Student.findOne({ userId })
       .select("course")
       .lean();
 
@@ -42,7 +42,18 @@ const getUserCourseIds = async (
       return [];
     }
 
-    return [String(student.course)];
+    // Student.course stores the course code, not its ObjectId.
+    const course = await Course.findOne({
+      code: student.course,
+    })
+      .select("_id")
+      .lean();
+
+    if (!course) {
+      return [];
+    }
+
+    return [String(course._id)];
   }
 
   const teacher = await Teacher.findOne({ user: userId })
@@ -64,7 +75,7 @@ const getUserCourseIds = async (
       assignments
         .map((assignment) => assignment.course)
         .filter(Boolean)
-        .map((course) => String(course))
+        .map(String)
     ),
   ];
 };
@@ -296,7 +307,7 @@ export const getNoticeById = async (req: AuthRequest, res: Response) => {
 
     if (!allowed) {
       return res.status(403).json({
-        message: "You are not allowed to view this notice",
+        message: "You do not have permission to view this notice",
       });
     }
 
